@@ -1,0 +1,9 @@
+Exercice 1: 
+1-1 : Pour tout calcul possible, tout le temps dans le futur, si il y a une requête vraie alors pour tout calcul possible, il y aura un état dans le futur, où state prendra la valeur busy.
+
+1-3 : 
+AG(!request -> AF state = busy) is false
+AG(!request -> AF state = ready) is false
+AG (request -> AF state = ready)  is false
+
+      
