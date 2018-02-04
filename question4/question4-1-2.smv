@@ -1,0 +1,9 @@
+MODULE main
+VAR
+  state : boolean ;
+ASSIGN
+  init(state) := TRUE;
+  next(state) := TRUE;
+
+LTLSPEC G state
+LTLSPEC G F state

@@ -1,0 +1,16 @@
+MODULE main
+VAR
+  p : boolean;
+  q : boolean;
+ASSIGN
+  init(p) := TRUE;
+  init(q) := FALSE;
+  next(p) := !q;
+  next(q) := case
+    p = TRUE : TRUE;
+    TRUE : FALSE;
+  esac;
+
+LTLSPEC G (p -> F q)
+LTLSPEC !(!p U q)
+LTLSPEC p -> X (G !p U (F p & (!p U q)))
