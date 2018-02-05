@@ -1,0 +1,17 @@
+MODULE main
+VAR
+  p : boolean;
+  q : boolean;
+  l : boolean;
+ASSIGN
+  next(p) := {TRUE,FALSE};
+  next(q) := case
+    !next(p) : TRUE;
+    TRUE : FALSE;
+  esac;
+  next(l) := case
+    !next(q) : TRUE;
+    TRUE : FALSE;
+  esac;
+
+SPEC (A(p U A(q U l))) ->  A(A( p U q) U l)
