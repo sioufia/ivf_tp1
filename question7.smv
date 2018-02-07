@@ -1,0 +1,20 @@
+MODULE main1(d,i)
+VAR
+  val : 0..5 ;
+ASSIGN
+  next(val) := case
+    val = d mod 5 & i=0 : (val + 1) mod 5;
+    val != d & i!=0 : d;
+    TRUE: val;
+  esac;
+FAIRNESS running
+MODULE main
+VAR
+  p0 : process main1(p3.val,0) ;
+  p1 : process main1(p0.val,1) ;
+  p2 : process main1(p1.val,2) ;
+  p3 : process main1(p2.val,3) ;
+
+SPEC AG(p1.val != p0.val | p2.val != p1.val | p3.val != p2.val | p0.val = p3.val)
+SPEC AF(p1.val != p0.val xor p2.val != p1.val xor p3.val != p1.val xor p0.val = p3.val)
+SPEC AGF p1.val != p0.val
