@@ -1,0 +1,13 @@
+MODULE main
+VAR
+  p : boolean;
+ASSIGN
+  next(p) := {TRUE,FALSE};
+
+--A F !ψ  et ! E G  ψ : équivalent
+SPEC AF !p <-> ! EG p
+
+--E F !ψ  et ! A F  ψ : non équivalent
+SPEC EF !p <-> ! (AF p)
+
+SPEC TRUE <-> (EG p -> AG p)

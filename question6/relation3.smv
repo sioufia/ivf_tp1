@@ -1,0 +1,12 @@
+MODULE main
+VAR
+  p : boolean;
+  q : boolean;
+ASSIGN
+  next(q) := case
+    next(p) : FALSE;
+    TRUE : TRUE;
+  esac;
+
+--A F φ ∨ A F ψ  et A F (φ∨ψ) : non équivalent 
+SPEC (AF p | AF q) <-> AF (p|q)
