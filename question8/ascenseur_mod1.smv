@@ -1,0 +1,82 @@
+MODULE main
+VAR
+    floor : 1..3;
+    direction : 0..3;
+    calls : {0, 1, 2, 3, 12, 13, 21, 23, 31, 32, 123, 132, 213, 231, 312, 321};
+
+
+ASSIGN
+    init(floor) := 1;
+    init(direction) := 0;
+    init(calls) := 0;
+    next(floor) := case
+        direction != 0 : direction;
+        TRUE : case
+            calls = 123 : 1;
+            calls = 132 : 1;
+            calls = 213 : 2;
+            calls = 231 : 2;
+            calls = 312 : 3;
+            calls = 321 : 3;
+            calls = 12 : 1;
+            calls = 13 : 1;
+            calls = 21 : 2;
+            calls = 23 : 2;
+            calls = 31 : 3;
+            calls = 32 : 3;
+            calls = 0 : floor;
+            TRUE : calls;
+        esac;
+    esac;
+    next(calls) := case
+        next(floor) = direction : case
+            calls = 0 : {0, 1, 2, 3, 12, 13, 21, 23, 31, 32, 123, 132, 213, 231, 312, 321};
+            calls = 1 : {1, 12, 13, 123, 132};
+            calls = 2 : {2, 21, 23, 213, 231};
+            calls = 3 : {3, 31, 32, 312, 321};
+            calls = 12 : {12, 123};
+            calls = 13 : {13, 132};
+            calls = 21 : {21, 213};
+            calls = 23 : {23, 231};
+            calls = 31 : {31, 312};
+            calls = 32 : {32, 321};
+            TRUE : calls;
+        esac;
+        TRUE : case
+            calls = 123 : {23, 231};
+            calls = 132 : {32, 321};
+            calls = 213 : {13, 132};
+            calls = 231 : {31, 312};
+            calls = 312 : {12, 123};
+            calls = 321 : {21, 213};
+            calls = 21 | calls = 31 : {1, 12, 13, 123, 132};
+            calls = 12 | calls = 32 : {2, 21, 23, 213, 231};
+            calls = 13 | calls = 23 : {3, 31, 32, 312, 321};
+            TRUE : {0, 1, 2, 3, 12, 13, 21, 23, 31, 32, 123, 132, 213, 231, 312, 321};
+        esac;
+    esac;
+
+
+    next(direction) := case
+        direction != 0 : 0;
+        TRUE : 0..3;
+    esac;
+
+DEFINE
+    one_req := case
+        calls = 1 | calls = 12 | calls = 13 | calls = 21 | calls = 31 | calls = 123 |calls = 132 | calls = 213 |calls = 312 | calls = 321 | calls = 312 : TRUE;
+        TRUE : FALSE;
+    esac;
+    two_req := case
+        calls = 2 | calls = 21 | calls = 23 | calls = 12 | calls = 32 | calls = 123 |calls = 132 | calls = 213 |calls = 312 | calls = 321 | calls = 312 : TRUE;
+        TRUE : FALSE;
+    esac;
+    three_req := case
+        calls = 3 | calls = 31 |calls = 32 |calls = 13 | calls =  23 | calls = 123 |calls = 132 | calls = 213 |calls = 312 | calls = 321 | calls = 312 : TRUE;
+        TRUE : FALSE;
+    esac;
+
+
+SPEC AG(one_req -> AF(floor = 1))
+SPEC AG(two_req -> AF(floor = 2))
+SPEC AG(three_req -> AF(floor = 3))

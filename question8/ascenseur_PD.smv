@@ -1,0 +1,99 @@
+MODULE main
+VAR
+    floor : 1..3;
+    asc_buttons : array 1..3 of boolean;
+    floor_buttons : array 1..3 of boolean;
+    direction : {-1, 0, 1};
+    etage_de_direction : 1..3;
+
+ASSIGN
+    init(asc_buttons[1]) := FALSE;
+    init(asc_buttons[2]) := FALSE;
+    init(asc_buttons[3]) := FALSE;
+    init(floor_buttons[1]) := FALSE;
+    init(floor_buttons[2]) := FALSE;
+    init(floor_buttons[3]) := FALSE;
+
+    next(etage_de_direction) := etage_de_direction;
+
+    next(floor) := case
+        floor = 1 : case
+            asc_buttons[2] | floor_buttons[2] : 2;
+            asc_buttons[3] | floor_buttons[3] : 3;
+            TRUE : 1;
+        esac;
+        floor = 2 : case
+            direction = 0 | direction = 1 : case
+                asc_buttons[3] | floor_buttons[3] : 3;
+                TRUE : 1;
+            esac;
+            direction = -1 : case
+                asc_buttons[1] | floor_buttons[1] : 1;
+                asc_buttons[3] | floor_buttons[3] : 3;
+                TRUE : 1;
+            esac;
+        esac;
+        TRUE : case
+            asc_buttons[2] | floor_buttons[2] : 2;
+            TRUE : 1;
+        esac;
+    esac;
+
+    next(direction) := case
+        next(floor) > floor : 1;
+        next(floor) < floor : -1;
+        TRUE : 0;
+    esac;
+
+    next(asc_buttons[1]) := case
+        next(floor) = 1 : FALSE;
+        TRUE : case
+            asc_buttons[1] = TRUE : TRUE;
+            TRUE : {TRUE, FALSE};
+        esac;
+    esac;
+
+    next(floor_buttons[1]) := case
+        next(floor) = 1 : FALSE;
+        TRUE : case
+            floor_buttons[1] = TRUE : TRUE;
+            TRUE : {TRUE, FALSE};
+        esac;
+    esac;
+
+    next(asc_buttons[2]) := case
+        next(floor) = 2 : FALSE;
+        TRUE : case
+            asc_buttons[2] = TRUE : TRUE;
+            TRUE : {TRUE, FALSE};
+        esac;
+    esac;
+
+    next(floor_buttons[2]) := case
+        next(floor) = 2 : FALSE;
+        TRUE : case
+            floor_buttons[2] = TRUE : TRUE;
+            TRUE : {TRUE, FALSE};
+        esac;
+    esac;
+
+    next(asc_buttons[3]) := case
+        next(floor) = 3 : FALSE;
+        TRUE : case
+            asc_buttons[3] = TRUE : TRUE;
+            TRUE : {TRUE, FALSE};
+        esac;
+    esac;
+
+    next(floor_buttons[3]) := case
+        next(floor) = 3 : FALSE;
+        TRUE : case
+            floor_buttons[3] = TRUE : TRUE;
+            TRUE : {TRUE, FALSE};
+        esac;
+    esac;
+
+SPEC(AG(floor_buttons[1]|asc_buttons[1]->AF(floor=1)))
+SPEC(AG(floor_buttons[2]|asc_buttons[2]->AF(floor=2)))
+SPEC(AG(floor_buttons[3]|asc_buttons[3]->AF(floor=3)))
+SPEC(AG(!(floor_buttons[1]|floor_buttons[2]|floor_buttons[3]|asc_buttons[1]|asc_buttons[2]|asc_buttons[3])->AX(floor=1)))

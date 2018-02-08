@@ -9,4 +9,4 @@ ASSIGN
   TRUE : {ready,busy};
  esac;
 
-SPEC AG(request -> AF state = ready)
+SPEC AG(request -> AF state = busy)

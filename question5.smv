@@ -1,0 +1,22 @@
+MODULE main
+VAR
+    state : {lmsf, lmf, lsf, msf, lm, ls, sm, lf, mf, sf, l, m, s, end};
+
+ASSIGN
+    init(state) := lmsf;
+    next(state) := case
+        state = lmsf : {lm, ls, sm, l};
+        state = lmf : {l, m};
+        state = lsf : {l, s};
+        state = msf : {m, s};
+        state = lm | state = ls | state = sm: lmsf;
+        state = lf | state = mf | state = sf: end;
+        state = l : {lmf, lsf, lmsf};
+        state = m : {lmf, msf};
+        state = s : {lsf, msf};
+        TRUE : end;
+    esac;
+
+SPEC EF(state = end)
+
+
