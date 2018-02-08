@@ -10,4 +10,5 @@ SPEC AF !p <-> ! EG p
 --E F !ψ  et ! A F  ψ : non équivalent
 SPEC EF !p <-> ! (AF p)
 
+--TRUE et E Gφ ⇒ A G φ : non équivalent
 SPEC TRUE <-> (EG p -> AG p)

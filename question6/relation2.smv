@@ -8,6 +8,3 @@ ASSIGN
 
 --E F φ ∨ E F ψ   et E G (φ∨ψ) : non équivalent
 SPEC (EF p & EF q ) <-> EG (p&q)
-
---A F φ ∨ A F ψ  et A F (φ∨ψ) : équivalent (par exemple - il faudrait le prouver mathématiquement)
-SPEC (AF p | AF q) <-> AF (p|q)

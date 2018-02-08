@@ -17,4 +17,4 @@ VAR
 
 SPEC AG(p1.val != p0.val | p2.val != p1.val | p3.val != p2.val | p0.val = p3.val)
 SPEC AF(p1.val != p0.val xor p2.val != p1.val xor p3.val != p1.val xor p0.val = p3.val)
-SPEC AGF p1.val != p0.val
+SPEC A (G F p1.val != p0.val & G F p2.val != p1.val & G F p3.val != p2.val & G F p0.val = p3.val)

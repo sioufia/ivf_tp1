@@ -8,4 +8,4 @@ ASSIGN
   next(p) := !q;
   next(q) := !next(p);
 
-LTLSPEC (G(!(p & q))) | (!(F (p & q)))
+LTLSPEC G!(p & q) | !F (p & q)

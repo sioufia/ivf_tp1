@@ -1,5 +1,0 @@
-MODULE main
-VAR
-    i = 0..3 ;
-ASSIGN
-    init(i) := 0;
